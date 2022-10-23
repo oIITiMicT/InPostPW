@@ -2,6 +2,7 @@ package com.example.InPostPW.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.List;
@@ -35,4 +36,8 @@ public class User {
     @JsonIgnore
     private List<Package> expectedPackages;
 
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "role_id", referencedColumnName = "id")
+    @ToString.Exclude
+    private Role role;
 }
