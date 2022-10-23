@@ -1,0 +1,15 @@
+insert into permissions(id, name) values (1, 'read');
+insert into permissions(id, name) values (2, 'write');
+insert into roles(id, name) values (1, 'admin');
+insert into roles(id, name) values (2, 'user');
+insert into roles_permissions(role_id, permission_id) VALUES (1, 2);
+insert into roles_permissions(role_id, permission_id) VALUES (1, 1);
+insert into roles_permissions(role_id, permission_id) VALUES (2, 1);
+insert into users(id, username, password_hash, email) values (1, 'Alex', 'hash', 'alex@gmail.com');
+insert into users(id, username, password_hash, email) values (2, 'Jack', 'hash', 'jack@gmail.com');
+insert into users_roles(user_id, role_id) VALUES (1, 1);
+insert into users_roles(user_id, role_id) VALUES (2, 2);
+insert into packages(id, sender_id, recipient_id, tracker) VALUES (1, 1, 2, 'tracker1');
+insert into packages(id, sender_id, recipient_id, tracker) VALUES (2, 2, 1, 'tracker2');
+insert into stages(id, package_id, description, time) VALUES (1, 1, 'ordered', '2022-10-10 11:35:00');
+insert into stages(id, package_id, description, time) VALUES (2, 1, 'confirmed', '2022-10-10 12:00:00');
