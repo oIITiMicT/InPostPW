@@ -1,10 +1,12 @@
 package com.example.InPostPW.controller;
 
+import com.example.InPostPW.builder.NewUserBuilder;
 import com.example.InPostPW.builder.UserResponseBuilder;
-import com.example.InPostPW.dto.UserResponseDto;
+import com.example.InPostPW.dto.RegistrationFormDto;
 import com.example.InPostPW.exception.UserNotFoundException;
 import com.example.InPostPW.model.User;
 import com.example.InPostPW.services.UserService;
+import com.example.InPostPW.validation.FormsValidation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,10 +21,23 @@ public class UserController {
 
     private final UserResponseBuilder userResponseBuilder;
 
+    private final FormsValidation formsValidation;
+
+    private final NewUserBuilder userBuilder;
+
     @GetMapping("/user/{id}")
     @ResponseBody
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
         User user = userService.findUserById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
+        return new ResponseEntity<>(userResponseBuilder.convertUserToUserResponse(user), HttpStatus.OK);
+    }
+
+    @PostMapping("user/registration")
+    @ResponseBody
+    public ResponseEntity<?> registerUser(@RequestBody RegistrationFormDto registrationForm) {
+        formsValidation.validateRegistrationForm(registrationForm);
+        User user = userBuilder.createNewUser(registrationForm);
+        user = userService.saveUser(user);
         return new ResponseEntity<>(userResponseBuilder.convertUserToUserResponse(user), HttpStatus.OK);
     }
 }

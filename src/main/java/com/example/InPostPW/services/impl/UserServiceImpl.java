@@ -31,6 +31,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User saveUser(User user) {
+        return userRepository.save(user);
+    }
+
+    @Override
+    public Optional<User> findUserByUsername(String username) {
+        return userRepository.findUserByUsername(username);
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = findUserByEmail(username).orElseThrow(() -> new UserNotFoundException(username));
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();

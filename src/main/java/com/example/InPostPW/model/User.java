@@ -1,7 +1,9 @@
 package com.example.InPostPW.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Builder;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
@@ -14,7 +16,7 @@ public class User {
 
     @Id
     @Column(name="id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(name="username")
@@ -40,4 +42,5 @@ public class User {
     @JoinColumn(name = "role_id", referencedColumnName = "id")
     @ToString.Exclude
     private Role role;
+
 }
