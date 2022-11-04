@@ -1,9 +1,7 @@
 package com.example.InPostPW.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Builder;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
@@ -26,12 +24,17 @@ public class User {
     private String email;
 
     @Column(name="password_hash")
+    @JsonIgnore
     private String password;
+
+    @Column(name="salt")
+    @JsonIgnore
+    private String salt;
 
     @OneToMany(cascade = CascadeType.MERGE)
     @JoinColumn(name="sender_id")
     @JsonIgnore
-    private List<Package> sendedPackages;
+    private List<Package> sentPackages;
 
     @OneToMany(cascade = CascadeType.MERGE)
     @JoinColumn(name="recipient_id")

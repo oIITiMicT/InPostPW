@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api")
 public class UserController {
 
+    private static final String NO_USER_MESSAGE = "User not found";
+
     private final UserService userService;
 
     private final UserResponseBuilder userResponseBuilder;
@@ -28,16 +30,28 @@ public class UserController {
     @GetMapping("/user/{id}")
     @ResponseBody
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
-        User user = userService.findUserById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
+        User user = userService.findUserById(id).orElseThrow(() -> new UserNotFoundException(NO_USER_MESSAGE));
         return new ResponseEntity<>(userResponseBuilder.convertUserToUserResponse(user), HttpStatus.OK);
     }
 
-    @PostMapping("user/registration")
+    @PostMapping("/registration")
     @ResponseBody
     public ResponseEntity<?> registerUser(@RequestBody RegistrationFormDto registrationForm) {
         formsValidation.validateRegistrationForm(registrationForm);
         User user = userBuilder.createNewUser(registrationForm);
         user = userService.saveUser(user);
         return new ResponseEntity<>(userResponseBuilder.convertUserToUserResponse(user), HttpStatus.OK);
+    }
+
+    @GetMapping("user/{id}/packages/sent")
+    public ResponseEntity<?> getUserSentPackages(@PathVariable Long id) {
+        User user = userService.findUserById(id).orElseThrow(() -> new UserNotFoundException(NO_USER_MESSAGE));
+        return new ResponseEntity<>(user.getSentPackages(), HttpStatus.OK);
+    }
+
+    @GetMapping("user/{id}/packages/expected")
+    public ResponseEntity<?> getUserExpectedPackages(@PathVariable Long id) {
+        User user = userService.findUserById(id).orElseThrow(() -> new UserNotFoundException(NO_USER_MESSAGE));
+        return new ResponseEntity<>(user.getExpectedPackages(), HttpStatus.OK);
     }
 }

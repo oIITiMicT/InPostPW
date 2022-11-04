@@ -1,5 +1,7 @@
 package com.example.InPostPW.filter;
 
+import com.example.InPostPW.exception.UserNotFoundException;
+import com.example.InPostPW.services.UserService;
 import com.example.InPostPW.services.UserTokenProvider;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,14 +23,19 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
+    private static final String NO_USER_MESSAGE = "User not found";
+
     private final AuthenticationManager authenticationManager;
 
     private final UserTokenProvider userTokenProvider;
+
+    private final UserService userService;
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         String email = null;
         String password;
+        String salt;
         Authentication authentication = null;
 
         try {
@@ -38,6 +45,8 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
             }
             email = json.get("email").asText();
             password = json.get("password").asText();
+            salt = userService.findUserByEmail(email).orElseThrow(() -> new UserNotFoundException(NO_USER_MESSAGE)).getSalt();
+            password = salt + password;
             UsernamePasswordAuthenticationToken authenticationToken =
                     new UsernamePasswordAuthenticationToken(email, password);
             authentication = authenticationManager.authenticate(authenticationToken);

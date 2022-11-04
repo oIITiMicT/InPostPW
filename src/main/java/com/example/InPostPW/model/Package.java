@@ -20,14 +20,22 @@ public class Package {
     @Column(name="tracker")
     private String tracker;
 
+    @Column(name="shipping_address")
+    private String shippingAdress;
+
+    @Column(name="delivery_address")
+    private String deliveryAddress;
+
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "sender_id")
     @ToString.Exclude
+    @JsonIgnore
     private User sender;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "recipient_id")
     @ToString.Exclude
+    @JsonIgnore
     private User recipient;
 
     @OneToMany(cascade = CascadeType.MERGE)

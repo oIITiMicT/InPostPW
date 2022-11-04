@@ -8,7 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Random;
 
 @RequiredArgsConstructor
 @Component
@@ -18,16 +20,27 @@ public class NewUserBuilderImpl implements NewUserBuilder {
 
     private final RoleService roleService;
 
+
+    private String generateSalt() {
+        byte[] array = new byte[5];
+        Random random = new Random(System.nanoTime());
+        random.nextBytes(array);
+        return new String(array, StandardCharsets.UTF_8);
+    }
+
     //TODO builder
     @Override
     public User createNewUser(RegistrationFormDto registrationForm) {
         User user = new User();
-        user.setPassword(passwordEncoder.encode(registrationForm.getPassword()));
+        String salt = generateSalt();
+        String securityPassword = salt + registrationForm.getPassword();
+        user.setPassword(passwordEncoder.encode(securityPassword));
         user.setUsername(registrationForm.getUsername());
         user.setEmail(registrationForm.getEmail());
         user.setRole(roleService.findRoleByName("user").get());
         user.setExpectedPackages(new ArrayList<>());
-        user.setSendedPackages(new ArrayList<>());
+        user.setSentPackages(new ArrayList<>());
+        user.setSalt(salt);
         return user;
     }
 }

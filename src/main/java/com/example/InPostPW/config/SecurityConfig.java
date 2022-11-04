@@ -39,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         CustomAuthenticationFilter customAuthenticationFilter =
-                new CustomAuthenticationFilter(authenticationManagerBean(), userTokenProvider);
+                new CustomAuthenticationFilter(authenticationManagerBean(), userTokenProvider, userService);
         customAuthenticationFilter.setFilterProcessesUrl("/api/login");
         CustomAuthorizationFilter customAuthorizationFilter =
                 new CustomAuthorizationFilter(secret);
@@ -49,8 +49,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
                 .antMatchers("/api/login").permitAll()
-                .antMatchers("/api/user/registration/**").permitAll()
-                .antMatchers("/**").authenticated().and()
+                .antMatchers("/api/registration/**").permitAll()
+                .antMatchers("/api/user/{id}/packages").authenticated()
+                .antMatchers(("/api/user/**")).hasAuthority("get user info").and()
                 .addFilter(customAuthenticationFilter)
                 .addFilterBefore(customAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
     }
