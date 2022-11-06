@@ -1,7 +1,7 @@
 package com.example.InPostPW.controller;
 
 import com.example.InPostPW.builder.NewUserBuilder;
-import com.example.InPostPW.builder.UserResponseBuilder;
+import com.example.InPostPW.builder.ResponseBuilders;
 import com.example.InPostPW.dto.RegistrationFormDto;
 import com.example.InPostPW.exception.UserNotFoundException;
 import com.example.InPostPW.model.User;
@@ -21,7 +21,7 @@ public class UserController {
 
     private final UserService userService;
 
-    private final UserResponseBuilder userResponseBuilder;
+    private final ResponseBuilders userResponseBuilder;
 
     private final FormsValidation formsValidation;
 

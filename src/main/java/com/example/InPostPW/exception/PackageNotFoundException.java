@@ -1,11 +1,11 @@
 package com.example.InPostPW.exception;
 
 public class PackageNotFoundException extends RuntimeException {
-    private static final String DEFAULT_MESSAGE = "Package not found.";
+    private static final String DEFAULT_MESSAGE = "Package not found: ";
     private Long packageId;
 
     public PackageNotFoundException(Long packageId) {
-        this(DEFAULT_MESSAGE, packageId);
+        this(DEFAULT_MESSAGE + packageId, packageId);
     }
 
     public PackageNotFoundException(String message, Long packageId) {

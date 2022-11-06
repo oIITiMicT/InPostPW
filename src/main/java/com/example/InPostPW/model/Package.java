@@ -23,8 +23,8 @@ public class Package {
     @Column(name="shipping_address")
     private String shippingAdress;
 
-    @Column(name="delivery_address")
-    private String deliveryAddress;
+    @Column(name="destination_address")
+    private String destinationAddress;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "sender_id")

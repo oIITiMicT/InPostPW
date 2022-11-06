@@ -9,4 +9,6 @@ public interface PackageService {
     Optional<Package> findPackageById(Long id);
 
     String generateTracker();
+
+    Package savePackage(Package parcel);
 }

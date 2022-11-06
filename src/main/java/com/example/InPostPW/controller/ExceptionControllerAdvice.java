@@ -1,6 +1,7 @@
 package com.example.InPostPW.controller;
 
 import com.example.InPostPW.exception.*;
+import org.json.JSONException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -31,6 +32,11 @@ public class ExceptionControllerAdvice {
 
     @ExceptionHandler
     public ResponseEntity<?> roleNotFoundException(RoleNotFoundException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<?> invalidJSONException(JSONException e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
     }
 }
