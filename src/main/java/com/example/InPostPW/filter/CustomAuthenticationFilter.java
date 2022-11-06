@@ -1,6 +1,7 @@
 package com.example.InPostPW.filter;
 
 import com.example.InPostPW.exception.UserNotFoundException;
+import com.example.InPostPW.model.User;
 import com.example.InPostPW.services.UserService;
 import com.example.InPostPW.services.UserTokenProvider;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -19,6 +20,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -35,7 +37,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         String email = null;
         String password;
-        String salt;
+        String salt = "";
         Authentication authentication = null;
 
         try {
@@ -45,7 +47,10 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
             }
             email = json.get("email").asText();
             password = json.get("password").asText();
-            salt = userService.findUserByEmail(email).orElseThrow(() -> new UserNotFoundException(NO_USER_MESSAGE)).getSalt();
+            Optional<User> user = userService.findUserByEmail(email);
+            if (user.isPresent()) {
+                salt = user.get().getSalt();
+            }
             password = salt + password;
             UsernamePasswordAuthenticationToken authenticationToken =
                     new UsernamePasswordAuthenticationToken(email, password);

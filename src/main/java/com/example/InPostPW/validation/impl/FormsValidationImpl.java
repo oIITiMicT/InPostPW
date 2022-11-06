@@ -1,7 +1,9 @@
 package com.example.InPostPW.validation.impl;
 
+import com.example.InPostPW.dto.NewPackageFormDto;
 import com.example.InPostPW.dto.RegistrationFormDto;
 import com.example.InPostPW.exception.IllegalFormFieldException;
+import com.example.InPostPW.exception.UserNotFoundException;
 import com.example.InPostPW.services.UserService;
 import com.example.InPostPW.validation.FormsValidation;
 import com.example.InPostPW.validation.PasswordValidation;
@@ -25,6 +27,7 @@ public class FormsValidationImpl implements FormsValidation {
         final String username = registrationForm.getUsername();
         final String email = registrationForm.getEmail();
         final String password = registrationForm.getPassword();
+
         if (email == null) {
             throw new IllegalFormFieldException("email");
         }
@@ -46,5 +49,28 @@ public class FormsValidationImpl implements FormsValidation {
         }
 
         passwordValidation.checkPasswordValidity(registrationForm.getPassword());
+    }
+
+    @Override
+    public void validateCreateNewPackageForm(NewPackageFormDto newPackageFormDto) {
+        final String recipient = newPackageFormDto.getRecipient();
+        final String shippingAddress = newPackageFormDto.getShippingAddress();
+        final String destinationAddress = newPackageFormDto.getDestinationAddress();
+
+        if (shippingAddress == null) {
+            throw new IllegalFormFieldException("shipping address");
+        }
+
+        if (destinationAddress == null) {
+            throw new IllegalFormFieldException("destination address");
+        }
+
+        if (recipient == null) {
+            throw new IllegalFormFieldException("recipient");
+        }
+
+        if (userService.findUserByUsername(recipient).isEmpty()) {
+            throw new UserNotFoundException(recipient);
+        }
     }
 }

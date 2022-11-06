@@ -1,7 +1,7 @@
 package com.example.InPostPW.validation.impl;
 
 import java.util.regex.Pattern;
-import com.example.InPostPW.exception.EncorrectPasswordException;
+import com.example.InPostPW.exception.IncorrectPasswordException;
 import com.example.InPostPW.validation.PasswordValidation;
 import org.springframework.stereotype.Component;
 
@@ -24,25 +24,25 @@ public class PasswordValidationImpl implements PasswordValidation {
     @Override
     public void checkPasswordValidity(String password) {
         if (password == null) {
-            throw new EncorrectPasswordException(NULL_ERROR);
+            throw new IncorrectPasswordException(NULL_ERROR);
         }
         if (Pattern.matches(FORBIDDEN_CHARACTERS_PATTERN, password)) {
-            throw new EncorrectPasswordException(CHARACTER_ERROR);
+            throw new IncorrectPasswordException(CHARACTER_ERROR);
         }
         if (!Pattern.matches(ALLOWED_LENGTH_PATTERN, password)) {
-            throw new EncorrectPasswordException(LENGTH_ERROR);
+            throw new IncorrectPasswordException(LENGTH_ERROR);
         }
         if (!Pattern.matches(CAPITAL_LETTERS_PATTERN, password)) {
-            throw new EncorrectPasswordException(NO_UPPERCASE);
+            throw new IncorrectPasswordException(NO_UPPERCASE);
         }
         if (!Pattern.matches(LETTERS_PATTERN, password)) {
-            throw new EncorrectPasswordException(NO_LOWERCASE);
+            throw new IncorrectPasswordException(NO_LOWERCASE);
         }
         if (!Pattern.matches(NUMBERS_PATTERN, password)) {
-            throw new EncorrectPasswordException(NO_NUMBER);
+            throw new IncorrectPasswordException(NO_NUMBER);
         }
         if (!Pattern.matches(SPECIAL_CHARACTERS_PATTERN, password)) {
-            throw new EncorrectPasswordException(NO_SPECIAL_CHARACTER);
+            throw new IncorrectPasswordException(NO_SPECIAL_CHARACTER);
         }
     }
 }
