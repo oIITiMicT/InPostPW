@@ -5,8 +5,6 @@ import com.example.InPostPW.repository.PackageRepository;
 import com.example.InPostPW.services.PackageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 import java.util.Random;
 
@@ -15,7 +13,6 @@ import java.util.Random;
 public class PackageServiceImpl implements PackageService {
 
     private final static String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + "0123456789";
-
     private final static int TRACKER_LENGHT = 8;
 
     private final PackageRepository packageRepository;

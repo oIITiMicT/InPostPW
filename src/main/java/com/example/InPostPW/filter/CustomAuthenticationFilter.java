@@ -1,6 +1,6 @@
 package com.example.InPostPW.filter;
 
-import com.example.InPostPW.exception.UserNotFoundException;
+
 import com.example.InPostPW.model.User;
 import com.example.InPostPW.services.UserService;
 import com.example.InPostPW.services.UserTokenProvider;
@@ -14,7 +14,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -22,10 +21,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
+
 @RequiredArgsConstructor
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-
-    private static final String NO_USER_MESSAGE = "User not found";
 
     private final AuthenticationManager authenticationManager;
 

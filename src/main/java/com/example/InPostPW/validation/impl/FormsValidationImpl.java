@@ -1,10 +1,13 @@
 package com.example.InPostPW.validation.impl;
 
 import com.example.InPostPW.dto.NewPackageFormDto;
+import com.example.InPostPW.dto.NewStageFormDto;
 import com.example.InPostPW.dto.RegistrationFormDto;
 import com.example.InPostPW.exception.IllegalFormFieldException;
+import com.example.InPostPW.exception.PackageNotFoundException;
 import com.example.InPostPW.exception.UserNotFoundException;
 import com.example.InPostPW.model.User;
+import com.example.InPostPW.services.PackageService;
 import com.example.InPostPW.services.TokenService;
 import com.example.InPostPW.services.UserService;
 import com.example.InPostPW.validation.FormsValidation;
@@ -12,8 +15,9 @@ import com.example.InPostPW.validation.PasswordValidation;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONException;
 import org.springframework.stereotype.Component;
-
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
+
 
 @Component
 @RequiredArgsConstructor
@@ -26,6 +30,8 @@ public class FormsValidationImpl implements FormsValidation {
     private final TokenService tokenService;
 
     private final UserService userService;
+
+    private final PackageService packageService;
 
     //TODO Field name
     @Override
@@ -58,10 +64,10 @@ public class FormsValidationImpl implements FormsValidation {
     }
 
     @Override
-    public void validateCreateNewPackageForm(NewPackageFormDto newPackageFormDto) throws JSONException {
-        final String recipient = newPackageFormDto.getRecipient();
-        final String shippingAddress = newPackageFormDto.getShippingAddress();
-        final String destinationAddress = newPackageFormDto.getDestinationAddress();
+    public void validateCreateNewPackageForm(NewPackageFormDto packageFormDto) throws JSONException {
+        final String recipient = packageFormDto.getRecipient();
+        final String shippingAddress = packageFormDto.getShippingAddress();
+        final String destinationAddress = packageFormDto.getDestinationAddress();
         HttpServletRequest request = tokenService.getCurrentRequest();
         String token = tokenService.getTokenFromRequestHeader(request);
         String email = tokenService.getSubjectFromToken(token);
@@ -85,6 +91,29 @@ public class FormsValidationImpl implements FormsValidation {
 
         if (recipient.equals(sender.getUsername())) {
             throw new IllegalFormFieldException("cannot send package for yourself", recipient);
+        }
+    }
+
+    @Override
+    public void validateCreateNewStageForm(NewStageFormDto stageFormDto) {
+        String description = stageFormDto.getDescription();
+        LocalDateTime time = stageFormDto.getTime();
+        Long packageId = stageFormDto.getPackageId();
+
+        if (description == null) {
+            throw  new IllegalFormFieldException("description");
+        }
+
+        if (time == null) {
+            throw new IllegalFormFieldException("time");
+        }
+
+        if (packageId == null) {
+            throw new IllegalFormFieldException("packageId");
+        }
+
+        if (packageService.findPackageById(packageId).isEmpty()) {
+            throw new PackageNotFoundException(packageId);
         }
     }
 }

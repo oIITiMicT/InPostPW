@@ -1,7 +1,6 @@
 package com.example.InPostPW.services;
 
 import org.json.JSONException;
-
 import javax.servlet.http.HttpServletRequest;
 
 public interface TokenService {
