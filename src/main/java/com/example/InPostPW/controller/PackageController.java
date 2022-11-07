@@ -6,6 +6,7 @@ import com.example.InPostPW.dto.NewPackageFormDto;
 import com.example.InPostPW.exception.PackageNotFoundException;
 import com.example.InPostPW.model.Package;
 import com.example.InPostPW.services.PackageService;
+import com.example.InPostPW.services.StageService;
 import com.example.InPostPW.validation.FormsValidation;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONException;
@@ -25,11 +26,14 @@ public class PackageController {
     private final NewPackageBuilder packageBuilder;
 
     private final ResponseBuilders responseBuilders;
+
+    private final StageService stageService;
+
     @GetMapping
     @RequestMapping("/{id}")
     public ResponseEntity<?> getPackageById(@PathVariable Long id) {
         Package parcel = packageService.findPackageById(id).orElseThrow(() -> new PackageNotFoundException(id));
-        return new ResponseEntity<>(parcel, HttpStatus.OK);
+        return new ResponseEntity<>(responseBuilders.convertPackageToPackageResponseDto(parcel), HttpStatus.OK);
     }
 
     @PostMapping
@@ -38,6 +42,7 @@ public class PackageController {
         formsValidation.validateCreateNewPackageForm(packageFormDto);
         Package parcel = packageBuilder.createNewPackage(packageFormDto);
         parcel = packageService.savePackage(parcel);
+        stageService.createInitStage(parcel);
         return new ResponseEntity<>(responseBuilders.convertPackageToPackageResponseDto(parcel), HttpStatus.CREATED);
     }
 }
