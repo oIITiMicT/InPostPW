@@ -1,11 +1,11 @@
 package com.example.InPostPW.exception;
 
 public class IllegalFormFieldException extends RuntimeException {
-    private static final String DEFAULT_MESSAGE = "Field cannot be null.";
+    private static final String DEFAULT_MESSAGE = "Field cannot be null: ";
     private String field;
 
     public IllegalFormFieldException(String field) {
-        this(DEFAULT_MESSAGE, field);
+        this(DEFAULT_MESSAGE + field, field);
     }
 
     public IllegalFormFieldException(String message, String field) {

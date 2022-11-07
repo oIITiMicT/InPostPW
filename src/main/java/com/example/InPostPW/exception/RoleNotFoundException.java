@@ -1,11 +1,11 @@
 package com.example.InPostPW.exception;
 
 public class RoleNotFoundException extends RuntimeException {
-    private static final String DEFAULT_MESSAGE = "Role not found.";
+    private static final String DEFAULT_MESSAGE = "Role not found: ";
     private String name;
 
     public RoleNotFoundException(String name) {
-        this(DEFAULT_MESSAGE, name);
+        this(DEFAULT_MESSAGE + name, name);
     }
 
     public RoleNotFoundException(String message, String name) {

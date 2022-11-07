@@ -1,15 +1,23 @@
 package com.example.InPostPW.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Builder;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
-
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.CascadeType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "users")
 public class User {
@@ -26,12 +34,17 @@ public class User {
     private String email;
 
     @Column(name="password_hash")
+    @JsonIgnore
     private String password;
+
+    @Column(name="salt")
+    @JsonIgnore
+    private String salt;
 
     @OneToMany(cascade = CascadeType.MERGE)
     @JoinColumn(name="sender_id")
     @JsonIgnore
-    private List<Package> sendedPackages;
+    private List<Package> sentPackages;
 
     @OneToMany(cascade = CascadeType.MERGE)
     @JoinColumn(name="recipient_id")

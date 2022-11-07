@@ -1,5 +1,8 @@
 package com.example.InPostPW.filter;
 
+
+import com.example.InPostPW.model.User;
+import com.example.InPostPW.services.UserService;
 import com.example.InPostPW.services.UserTokenProvider;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,12 +14,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
+
 
 @RequiredArgsConstructor
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -25,10 +29,13 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
     private final UserTokenProvider userTokenProvider;
 
+    private final UserService userService;
+
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         String email = null;
         String password;
+        String salt = "";
         Authentication authentication = null;
 
         try {
@@ -38,6 +45,11 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
             }
             email = json.get("email").asText();
             password = json.get("password").asText();
+            Optional<User> user = userService.findUserByEmail(email);
+            if (user.isPresent()) {
+                salt = user.get().getSalt();
+            }
+            password = salt + password;
             UsernamePasswordAuthenticationToken authenticationToken =
                     new UsernamePasswordAuthenticationToken(email, password);
             authentication = authenticationManager.authenticate(authenticationToken);

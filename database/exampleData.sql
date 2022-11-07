@@ -1,13 +1,4 @@
-insert into permissions(id, name) values (1, 'read');
-insert into permissions(id, name) values (2, 'write');
+insert into permissions(id, name) values (1, 'get user info');
 insert into roles(id, name) values (1, 'admin');
 insert into roles(id, name) values (2, 'user');
-insert into roles_permissions(role_id, permission_id) VALUES (1, 2);
 insert into roles_permissions(role_id, permission_id) VALUES (1, 1);
-insert into roles_permissions(role_id, permission_id) VALUES (2, 1);
-insert into users(id, username, password_hash, email, role_id) values (1, 'Alex', '$2a$12$0q5dCKSbqZlvamV78EeL2Oi3yNeZDlid5hu3KrqSRI1Dk7XF/AUwy', 'alex@gmail.com', 1);
-insert into users(id, username, password_hash, email, role_id) values (2, 'Jack', '$2a$12$0q5dCKSbqZlvamV78EeL2Oi3yNeZDlid5hu3KrqSRI1Dk7XF/AUwy', 'jack@gmail.com', 2);
-insert into packages(id, sender_id, recipient_id, tracker) VALUES (1, 1, 2, 'tracker1');
-insert into packages(id, sender_id, recipient_id, tracker) VALUES (2, 2, 1, 'tracker2');
-insert into stages(id, package_id, description, time) VALUES (1, 1, 'ordered', '2022-10-10 11:35:00');
-insert into stages(id, package_id, description, time) VALUES (2, 1, 'confirmed', '2022-10-10 12:00:00');
