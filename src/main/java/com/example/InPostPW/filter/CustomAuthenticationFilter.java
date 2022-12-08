@@ -19,47 +19,42 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Map;
 import java.util.Optional;
 
 
 @RequiredArgsConstructor
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-    public static final String ACCESS_TOKEN = "access_token";
-
-    public static final String REFRESH_TOKEN = "refresh_token";
-
     private final AuthenticationManager authenticationManager;
-
-    private final UserTokenProvider userTokenProvider;
 
     private final UserService userService;
 
+    private final UserTokenProvider userTokenProvider;
+
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        String email = null;
+        String username = null;
         String password;
-        String salt = "";
         Authentication authentication = null;
+        String salt = "";
 
         try {
             JsonNode json = new ObjectMapper().readTree(request.getReader());
             if (!(json.hasNonNull("email") && json.hasNonNull("password"))) {
                 throw new AuthenticationServiceException("Invalid request. Expected JSON with 'email' and 'password' fields.");
             }
-            email = json.get("email").asText();
+            username = json.get("email").asText();
             password = json.get("password").asText();
-            Optional<User> user = userService.findUserByEmail(email);
+            Optional<User> user = userService.findUserByEmail(username);
             if (user.isPresent()) {
                 salt = user.get().getSalt();
             }
             password = salt + password;
             UsernamePasswordAuthenticationToken authenticationToken =
-                    new UsernamePasswordAuthenticationToken(email, password);
+                    new UsernamePasswordAuthenticationToken(username, password);
             authentication = authenticationManager.authenticate(authenticationToken);
         } catch (AuthenticationException e) {
-            throw new AuthenticationServiceException(String.format("Error during authentication of %s", email), e);
+            throw new AuthenticationServiceException(String.format("Error during authentication of %s", username), e);
         } catch (IOException e) {
             throw new AuthenticationServiceException("Error reading request body by ObjectMapper", e);
         }
@@ -69,13 +64,9 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         UserDetails user = (UserDetails)authResult.getPrincipal();
-        Map<String, String> tokensPair = userTokenProvider.provide(user.getUsername());
-        String accessToken = tokensPair.get(ACCESS_TOKEN);
-        String refreshToken = tokensPair.get(REFRESH_TOKEN);
-        response.setHeader("accessToken", accessToken);
-        response.setHeader("refreshToken", refreshToken);
+        String token = userTokenProvider.provide(user.getUsername());
+        response.setHeader("token", token);
         response.addHeader("Vary", "Access-Control-Expose-Headers");
-        response.setHeader("Access-Control-Expose-Headers", "accessToken");
-        response.setHeader("Access-Control-Expose-Headers", "refreshToken");
+        response.setHeader("Access-Control-Expose-Headers", "token");
     }
 }
