@@ -40,7 +40,7 @@ public class RegistrationStoryLiveTest extends JUnitStories {
 
     @Override
     public InjectableStepsFactory stepsFactory() {
-        return new InstanceStepsFactory(configuration());
+        return new InstanceStepsFactory(configuration(), new RegistrationSteps());
     }
 
     @Override
