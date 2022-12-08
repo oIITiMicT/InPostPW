@@ -2,4 +2,4 @@ for user:
 username: test
 email: test@gmail.com
 password: passwordA1!
-token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGdtYWlsLmNvbSIsInJvbGUiOltdLCJleHAiOjE3NjA1Mzc0OTB9.BKZQ9BGNOWeW57ngPHkm1rarYgXTGIlFdE-U-wlk-6E
+token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGdtYWlsLmNvbSIsInJvbGUiOlsiZ2V0IHVzZXIgaW5mbyJdLCJleHAiOjE3NjA1Mzg5NzR9.YmK8wlNtIfdaIZ1u1UbHAv3zfWS7IAKr9ovsO12hN1Y
