@@ -7,6 +7,7 @@ import com.example.InPostPW.services.StageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -34,5 +35,10 @@ public class StageServiceImpl implements StageService {
     @Override
     public Optional<Stage> findStageById(Long id) {
         return stageRepository.findById(id);
+    }
+
+    @Override
+    public List<Stage> getStagesOfParcel(Long id) {
+        return stageRepository.findStagesByParcelId(id);
     }
 }
