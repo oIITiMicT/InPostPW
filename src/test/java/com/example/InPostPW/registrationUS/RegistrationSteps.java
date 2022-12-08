@@ -9,6 +9,7 @@ import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.UsingSteps;
 import org.jbehave.core.annotations.When;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Objects;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 
@@ -24,6 +28,8 @@ public class RegistrationSteps {
     private String username;
     private String password;
     private String email;
+    private String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGdtYWlsLmNvbSIsInJvbGUiOlsiZ2V0IHVzZXIgaW5mbyJdLCJleHAiOjE3NjA1Mzg5NzR9.YmK8wlNtIfdaIZ1u1UbHAv3zfWS7IAKr9ovsO12hN1Y";
+
     private RestTemplate restTemplate;
 
     private ObjectMapper mapper = new ObjectMapper();
@@ -41,7 +47,7 @@ public class RegistrationSteps {
 
     @Given("the username and email are unique")
     public void areUnique() {
-//        boolean result = userService.findUserByEmail(email).isEmpty() && userService.findUserByUsername(username).isEmpty();
+
         Assertions.assertTrue(true);
     }
 
@@ -61,7 +67,7 @@ public class RegistrationSteps {
     }
 
     @Then("account is created")
-    public void userIsCreated(){
-//        Assertions.assertTrue(userService.findUserByUsername(username).isPresent());
+    public void userIsCreated() throws JSONException {
+        Assertions.assertNotNull(resp.getBody());
     }
 }
