@@ -18,8 +18,6 @@ import org.springframework.web.client.RestTemplate;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
-
-@UsingSteps
 public class RegistrationSteps {
     private String username;
     private String password;
@@ -41,6 +39,7 @@ public class RegistrationSteps {
 
     @Given("the username and email are unique")
     public void areUnique() {
+
 //        boolean result = userService.findUserByEmail(email).isEmpty() && userService.findUserByUsername(username).isEmpty();
         Assertions.assertTrue(true);
     }
