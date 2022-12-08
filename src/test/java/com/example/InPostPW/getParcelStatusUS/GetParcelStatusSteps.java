@@ -1,4 +1,4 @@
-package getDescriptionOfChosenStatusUS;
+package com.example.InPostPW.getParcelStatusUS;
 
 import com.example.InPostPW.dto.NewPackageFormDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -11,21 +11,21 @@ import org.junit.jupiter.api.Assertions;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
-public class GetDescriptionOfChosenStatusSteps {
+public class GetParcelStatusSteps {
     private Long id;
     private RestTemplate restTemplate;
     private ObjectMapper mapper = new ObjectMapper();
     private ResponseEntity<String> resp;
 
-    private final static String URL = "http://localhost:8080/api/stage/{id}";
+    private final static String URL = "http://localhost:8080/api/{id}";
     private static final String JWT = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzYW1wbGVAZ21haWwuY29tIiwiZXhwIjoxNjczMTE5MzYzfQ.kHs1vMq7B_cM7dX-rsMy3G_Djnit-mU6iDCGzlBognA";
 
-    @Given("a id of chosen status")
+    @Given("a id of parcel")
     public void initDataForParcel(){
         id = 1L ;
     }
 
-    @When("the user send id of parcel status")
+    @When("the user send id of parcel")
     public void sendRequest() throws JsonProcessingException {
         restTemplate = new RestTemplate();
 

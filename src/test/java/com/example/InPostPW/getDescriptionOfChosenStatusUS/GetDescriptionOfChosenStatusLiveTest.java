@@ -1,5 +1,4 @@
-package getParcelStatusUS;
-import com.example.InPostPW.registerParcelForUserUS.RegisterParcelSteps;
+package com.example.InPostPW.getDescriptionOfChosenStatusUS;
 import org.jbehave.core.configuration.Configuration;
 import org.jbehave.core.configuration.MostUsefulConfiguration;
 import org.jbehave.core.io.LoadFromClasspath;
@@ -12,8 +11,7 @@ import java.util.List;
 
 import static org.jbehave.core.io.CodeLocations.codeLocationFromClass;
 import static org.jbehave.core.reporters.Format.CONSOLE;
-
-public class GetParcelStatusLiveTest extends JUnitStories {
+public class GetDescriptionOfChosenStatusLiveTest extends JUnitStories {
     @Override
     public Configuration configuration() {
         return new MostUsefulConfiguration()
@@ -25,11 +23,11 @@ public class GetParcelStatusLiveTest extends JUnitStories {
 
     @Override
     public InjectableStepsFactory stepsFactory() {
-        return new InstanceStepsFactory(configuration(), new GetParcelStatusSteps());
+        return new InstanceStepsFactory(configuration(), new GetDescriptionOfChosenStatusSteps());
     }
 
     @Override
     protected List<String> storyPaths() {
-        return List.of("getParcelStatus.story");
+        return List.of("getDescriptionOfChosenStatus.story");
     }
 }
