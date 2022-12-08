@@ -21,13 +21,13 @@ public class RegisterParcelSteps {
     private ResponseEntity<JSONObject> resp;
 
     private final static String URL = "http://localhost:8080/api/package/create";
-    private static final String JWT = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzYW1wbGVAZ21haWwuY29tIiwiZXhwIjoxNjczMTE5MzYzfQ.kHs1vMq7B_cM7dX-rsMy3G_Djnit-mU6iDCGzlBognA";
+    private static final String JWT = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGdtYWlsLmNvbSIsInJvbGUiOltdLCJleHAiOjE3NjA1MzU4MDV9.7yIcZLg1EbbndXhbrAzT4ZQtlQ6wMHe6UkS-0WzPmh4";
 
     @Given("a shippingAddress, destinationAddress and recipient")
     public void initDataForParcel(){
         shippingAddress = "someAddress";
         destinationAddress = "someDestAddress";
-        recipient = "someRecipient";
+        recipient = "admin";
     }
 
     @When("the user send request for creating parcel")
@@ -44,6 +44,5 @@ public class RegisterParcelSteps {
     @Then("the user gets 201 response")
     public void checkResponseStatus(){
         Assertions.assertEquals(HttpStatus.CREATED, resp.getStatusCode());
-
     }
 }
