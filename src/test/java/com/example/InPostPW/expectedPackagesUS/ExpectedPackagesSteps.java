@@ -1,7 +1,5 @@
-package com.example.InPostPW.sendedPackagesUS;
+package com.example.InPostPW.expectedPackagesUS;
 
-import com.example.InPostPW.dto.PackageResponseDto;
-import com.example.InPostPW.dto.UserLogin;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jbehave.core.annotations.Given;
@@ -13,13 +11,8 @@ import org.junit.jupiter.api.Assertions;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
-
 @UsingSteps
-public class SendedPackagesSteps {
+public class ExpectedPackagesSteps {
     private String token;
     private Long id;
     private RestTemplate restTemplate;
@@ -32,9 +25,9 @@ public class SendedPackagesSteps {
         token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGdtYWlsLmNvbSIsInJvbGUiOlsiZ2V0IHVzZXIgaW5mbyJdLCJleHAiOjE3NjA1Mzg5NzR9.YmK8wlNtIfdaIZ1u1UbHAv3zfWS7IAKr9ovsO12hN1Y";
     }
 
-    @When("the user send get sended packages request")
-    public void userSEndedREquest() throws JsonProcessingException {
-        String URL = "http://localhost:8080/api/user/" + id.toString() + "/packages/sent";
+    @When("the user send get expected packages request")
+    public void userSendedRequest() throws JsonProcessingException {
+        String URL = "http://localhost:8080/api/user/" + id.toString() + "/packages/expected";
         restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -45,7 +38,7 @@ public class SendedPackagesSteps {
                 URL, HttpMethod.GET, entity, JSONObject[].class);
     }
 
-    @Then("the user get 200 response and list of sended packages")
+    @Then("the user get 200 response and list of expected packages")
     public void checkUserResponse() throws JsonProcessingException {
         Assertions.assertEquals(HttpStatus.OK, resp.getStatusCode());
         Assertions.assertNotNull(resp.getBody());
