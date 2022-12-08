@@ -26,6 +26,9 @@ import static org.jbehave.core.reporters.Format.CONSOLE;
 
 public class RegistrationStoryLiveTest extends JUnitStories {
 
+    ObjectMapper mapper = new ObjectMapper();
+
+
     @Override
     public Configuration configuration() {
         return new MostUsefulConfiguration()

@@ -19,24 +19,8 @@ import javax.sql.DataSource;
 
 @SpringBootApplication
 public class InPostPwApplication {
-    @Autowired
-    UserService userService;
-    @Autowired
-    RoleRepository roleRepository;
-    @Autowired
-    NewUserBuilder userBuilder;
-
 
     public static void main(String[] args) {
         SpringApplication.run(InPostPwApplication.class, args);
-    }
-
-    @EventListener
-    public void initDB(ApplicationReadyEvent e) {
-        Role adminRole = roleRepository.save(Role.builder().name("admin").build());
-        Role userRole = roleRepository.save(Role.builder().name("user").build());
-
-        User user = userBuilder.createNewUser(new RegistrationFormDto("TestTest", "12345678aA!", "sample@gmail.com"));
-        user = userService.saveUser(user);
     }
 }
