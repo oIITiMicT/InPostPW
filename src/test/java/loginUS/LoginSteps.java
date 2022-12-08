@@ -14,7 +14,7 @@ import org.springframework.web.client.RestTemplate;
 
 @UsingSteps
 public class LoginSteps {
-    private String username;
+    private String email;
     private String password;
     private RestTemplate restTemplate;
 
@@ -22,10 +22,10 @@ public class LoginSteps {
     private ResponseEntity<JSONObject> resp;
     private final static String URL = "http://localhost:8080/api/login";
 
-    @Given("a username, password")
+    @Given("a email, password")
     public void initUserData() {
-        username = "TestTest";
-        password = "12345678aA!";
+        email = "test@gmail.com";
+        password = "passwordA1!";
     }
 
     @When("the user send login request")
@@ -33,7 +33,7 @@ public class LoginSteps {
         restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        String json = mapper.writeValueAsString(new UserLogin(username, password));
+        String json = mapper.writeValueAsString(new UserLogin(email, password));
         HttpEntity<String> entity = new HttpEntity<>(json, headers);
         resp = restTemplate.postForEntity(URL, entity, JSONObject.class);
     }
@@ -45,7 +45,6 @@ public class LoginSteps {
 
     @Then("the user get access and refresh tokens")
     public void userGetsTokens() {
-        Assertions.assertNotNull(resp.getHeaders().get("accessToken"));
-        Assertions.assertNotNull(resp.getHeaders().get("refreshToken"));
+        Assertions.assertNotNull(resp.getHeaders().get("token"));
     }
 }
