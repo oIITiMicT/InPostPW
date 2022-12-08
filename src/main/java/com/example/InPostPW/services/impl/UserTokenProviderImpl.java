@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
-public class UserTokenProviderImpl implements UserTokenProvider<String> {
+public class UserTokenProviderImpl implements UserTokenProvider {
 
     private final UserServiceImpl userService;
 
@@ -29,21 +29,14 @@ public class UserTokenProviderImpl implements UserTokenProvider<String> {
 
 
     @Override
-    public Map<String, String> provide(String username) {
+    public String provide(String username) {
         UserDetails userDetails = userService.loadUserByUsername(username);
         Algorithm algorithm = Algorithm.HMAC256(secretKey.getBytes());
-        String accessToken = JWT.create()
+        return JWT.create()
                 .withSubject(userDetails.getUsername())
-                .withExpiresAt(accessTokenExpiration())
+                .withExpiresAt(new Date(System.currentTimeMillis() + Long.parseLong(accessTokenDurationMS)))
                 .withClaim("role", userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .sign(algorithm);
-
-        String refreshToken = JWT.create()
-                .withSubject(userDetails.getUsername())
-                .withExpiresAt(refreshTokenExpiration())
-                .sign(algorithm);
-
-        return Map.of("access_token", accessToken, "refresh_token", refreshToken);
     }
 
     private Date accessTokenExpiration() {

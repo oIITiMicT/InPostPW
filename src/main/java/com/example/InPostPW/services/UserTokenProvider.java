@@ -2,7 +2,7 @@ package com.example.InPostPW.services;
 
 import java.util.Map;
 
-public interface UserTokenProvider<T> {
+public interface UserTokenProvider {
 
-    Map<String, String> provide(T t);
+    String provide(String username);
 }
