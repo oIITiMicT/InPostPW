@@ -13,7 +13,6 @@ public class AllParcelsSteps {
     private final static String URL = "http://localhost:8080/api/package/list";
     private static final String JWT = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlIjpbImdldCB1c2VyIGluZm8iXSwiZXhwIjoxNzYwNTQyMjE4fQ.SonKSHvGe0YAaJ2Q4-3aOginepNwJ_lgbVfPEb7dsc4";
 
-
     @Given("nothing")
     public void givenNothing(){}
 

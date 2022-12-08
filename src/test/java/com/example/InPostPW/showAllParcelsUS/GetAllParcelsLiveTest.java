@@ -13,6 +13,8 @@ import java.util.List;
 
 import static org.jbehave.core.io.CodeLocations.codeLocationFromClass;
 import static org.jbehave.core.reporters.Format.CONSOLE;
+import static org.jbehave.core.reporters.Format.HTML_TEMPLATE;
+import static org.jbehave.core.reporters.StoryReporterBuilder.Format.HTML;
 
 public class GetAllParcelsLiveTest extends JUnitStories {
     @Override

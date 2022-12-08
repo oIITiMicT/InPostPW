@@ -23,14 +23,13 @@ public class GetInfoUserSteps {
 
     private ObjectMapper mapper = new ObjectMapper();
     private ResponseEntity<String> resp;
-    private final static String URL = "http://localhost:8080/api/user/{id}";
+    private final static String URL = "http://localhost:8080/api/user/";
 
-    private final static String JWT = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzYW1wbGVAZ21haWwuY29tIiwicm9sZSI6W10sImV4cCI6MTY3MDUyODI2M30.jTCM52MO2rXC1WzhVkTrN7KQzCmvXYaUv1TtisSHLXI";
+    private final static String JWT = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlIjpbImdldCB1c2VyIGluZm8iXSwiZXhwIjoxNzYwNTQyMjE4fQ.SonKSHvGe0YAaJ2Q4-3aOginepNwJ_lgbVfPEb7dsc4";
     private UserService userService;
     @Given("a id")
     public void initUserData() {
-
-        id = 1L ;
+        id = 1000L ;
     }
 
 
@@ -38,14 +37,13 @@ public class GetInfoUserSteps {
     public void userSendsRequest() throws JsonProcessingException {
         restTemplate = new RestTemplate();
 
-
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.add("Token", JWT);
         HttpEntity<Void> entity = new HttpEntity<>(headers);
 
         resp = restTemplate.exchange(
-                URL, HttpMethod.GET, entity, String.class);
+                URL+id, HttpMethod.GET, entity, String.class);
     }
 
     @Then("the user as a admin gets 200 response")
