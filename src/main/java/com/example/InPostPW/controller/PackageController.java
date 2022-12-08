@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/package")
@@ -27,6 +29,13 @@ public class PackageController {
     private final NewPackageBuilder packageBuilder;
     private final ResponseBuilders responseBuilders;
     private final StageService stageService;
+
+    @GetMapping
+    @RequestMapping("/list")
+    public ResponseEntity<?> getListOfPackages() {
+        return new ResponseEntity<>(packageService.getListOfPackages(), HttpStatus.OK);
+    }
+
 
     @GetMapping
     @RequestMapping("/{id}")

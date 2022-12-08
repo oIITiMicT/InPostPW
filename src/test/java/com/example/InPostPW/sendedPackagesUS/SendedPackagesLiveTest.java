@@ -1,6 +1,6 @@
-package com.example.InPostPW.registrationUS;
+package com.example.InPostPW.sendedPackagesUS;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.example.InPostPW.loginUS.LoginSteps;
 import org.jbehave.core.configuration.Configuration;
 import org.jbehave.core.configuration.MostUsefulConfiguration;
 import org.jbehave.core.io.LoadFromClasspath;
@@ -14,11 +14,7 @@ import java.util.List;
 import static org.jbehave.core.io.CodeLocations.codeLocationFromClass;
 import static org.jbehave.core.reporters.Format.CONSOLE;
 
-
-public class RegistrationStoryLiveTest extends JUnitStories {
-
-    ObjectMapper mapper = new ObjectMapper();
-
+public class SendedPackagesLiveTest extends JUnitStories {
 
     @Override
     public Configuration configuration() {
@@ -31,11 +27,11 @@ public class RegistrationStoryLiveTest extends JUnitStories {
 
     @Override
     public InjectableStepsFactory stepsFactory() {
-        return new InstanceStepsFactory(configuration(), new RegistrationSteps());
+        return new InstanceStepsFactory(configuration(), new SendedPackagesSteps());
     }
 
     @Override
     protected List<String> storyPaths() {
-        return List.of("registration.story");
+        return List.of("sendedPackages.story");
     }
 }

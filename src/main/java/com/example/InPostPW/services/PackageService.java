@@ -1,6 +1,8 @@
 package com.example.InPostPW.services;
 
 import com.example.InPostPW.model.Package;
+
+import java.util.List;
 import java.util.Optional;
 
 public interface PackageService {
@@ -10,4 +12,6 @@ public interface PackageService {
     String generateTracker();
 
     Package savePackage(Package parcel);
+
+    List<Package> getListOfPackages();
 }
