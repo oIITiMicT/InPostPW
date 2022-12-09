@@ -34,6 +34,7 @@ public class LoginSteps {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         String json = mapper.writeValueAsString(new UserLogin(email, password));
+        System.out.println(json);
         HttpEntity<String> entity = new HttpEntity<>(json, headers);
         resp = restTemplate.postForEntity(URL, entity, JSONObject.class);
     }

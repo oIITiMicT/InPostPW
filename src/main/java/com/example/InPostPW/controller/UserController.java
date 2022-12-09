@@ -32,18 +32,6 @@ public class UserController {
         return new ResponseEntity<>(userResponseBuilder.convertUserToUserResponse(user), HttpStatus.OK);
     }
 
-    @GetMapping("/user/{username}")
-    public ResponseEntity<?> getUserByUsername(@PathVariable String username) {
-        User user = userService.findUserByUsername(username).orElseThrow(() -> new UserNotFoundException(NO_USER_MESSAGE));
-        return new ResponseEntity<>(userResponseBuilder.convertUserToUserResponse(user), HttpStatus.OK);
-    }
-
-    @GetMapping("/user/{email}")
-    public ResponseEntity<?> getUserByEmail(@PathVariable String email) {
-        User user = userService.findUserByEmail(email).orElseThrow(() -> new UserNotFoundException(NO_USER_MESSAGE));
-        return new ResponseEntity<>(userResponseBuilder.convertUserToUserResponse(user), HttpStatus.OK);
-    }
-
     @PostMapping("/registration")
     public ResponseEntity<?> registerUser(@RequestBody RegistrationFormDto registrationForm) {
         User user = userBuilder.createNewUser(registrationForm);

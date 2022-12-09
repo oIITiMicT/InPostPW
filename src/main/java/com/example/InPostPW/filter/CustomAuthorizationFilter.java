@@ -50,6 +50,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                 filterChain.doFilter(request, response);
             } catch (Exception e) {
+                System.out.println(e.getMessage());
                 response.setStatus(403);
                 response.getWriter().println("Error with token.");
             }

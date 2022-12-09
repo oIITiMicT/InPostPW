@@ -22,6 +22,8 @@ public class RegisterParcelSteps {
 
     private final static String URL = "http://localhost:8080/api/package/create";
     private static final String JWT = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGdtYWlsLmNvbSIsInJvbGUiOltdLCJleHAiOjE3NjA1MzU4MDV9.7yIcZLg1EbbndXhbrAzT4ZQtlQ6wMHe6UkS-0WzPmh4";
+    private String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGdtYWlsLmNvbSIsInJvbGUiOlsiZ2V0IHVzZXIgaW5mbyJdLCJleHAiOjE3NjA1Mzg5NzR9.YmK8wlNtIfdaIZ1u1UbHAv3zfWS7IAKr9ovsO12hN1Y";
+
 
     @Given("a shippingAddress, destinationAddress and recipient")
     public void initDataForParcel(){
@@ -35,7 +37,7 @@ public class RegisterParcelSteps {
         restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.add("Token", JWT);
+        headers.add("Token", token);
         String json = mapper.writeValueAsString(new NewPackageFormDto(shippingAddress, destinationAddress, recipient));
         HttpEntity<String> entity = new HttpEntity<String>(json, headers);
         resp = restTemplate.postForEntity(URL, entity, JSONObject.class);
