@@ -9,10 +9,13 @@ import org.jbehave.core.reporters.StoryReporterBuilder;
 import org.jbehave.core.steps.InjectableStepsFactory;
 import org.jbehave.core.steps.InstanceStepsFactory;
 
+import java.io.File;
+import java.net.MalformedURLException;
 import java.util.List;
 
 import static org.jbehave.core.io.CodeLocations.codeLocationFromClass;
-import static org.jbehave.core.reporters.Format.CONSOLE;
+import static org.jbehave.core.reporters.Format.*;
+import static org.jbehave.core.reporters.Format.XML;
 
 
 public class RegistrationStoryLiveTest extends JUnitStories {
@@ -22,11 +25,15 @@ public class RegistrationStoryLiveTest extends JUnitStories {
 
     @Override
     public Configuration configuration() {
-        return new MostUsefulConfiguration()
-                .useStoryLoader(new LoadFromClasspath(this.getClass()))
-                .useStoryReporterBuilder(new StoryReporterBuilder()
-                        .withCodeLocation(codeLocationFromClass(this.getClass()))
-                        .withFormats(CONSOLE));
+        try {
+            return new MostUsefulConfiguration()
+                    .useStoryLoader(new LoadFromClasspath(this.getClass()))
+                    .useStoryReporterBuilder(new StoryReporterBuilder()
+                            .withCodeLocation(new File("./target/jbehave/registration/foo").toURI().toURL())
+                            .withFormats(TXT, STATS, XML));
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
