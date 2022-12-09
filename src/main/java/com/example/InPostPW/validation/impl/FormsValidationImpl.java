@@ -17,6 +17,7 @@ import org.json.JSONException;
 import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 
 @Component
@@ -97,7 +98,7 @@ public class FormsValidationImpl implements FormsValidation {
     @Override
     public void validateCreateNewStageForm(NewStageFormDto stageFormDto) {
         String description = stageFormDto.getDescription();
-        LocalDateTime time = stageFormDto.getTime();
+        Date time = stageFormDto.getTime();
         Long packageId = stageFormDto.getPackageId();
 
         if (description == null) {

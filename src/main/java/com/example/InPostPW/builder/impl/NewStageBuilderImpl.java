@@ -7,6 +7,9 @@ import com.example.InPostPW.services.PackageService;
 import com.example.InPostPW.validation.FormsValidation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Component
@@ -21,7 +24,7 @@ public class NewStageBuilderImpl implements NewStageBuilder {
         formsValidation.validateCreateNewStageForm(stageFormDto);
         Stage stage = new Stage();
         stage.setDescription(stageFormDto.getDescription());
-        Date time = java.sql.Timestamp.valueOf(stageFormDto.getTime());
+        Date time = stageFormDto.getTime();
         stage.setTime(time);
         stage.setParcel(packageService.findPackageById(stageFormDto.getPackageId()).get());
         return stage;
