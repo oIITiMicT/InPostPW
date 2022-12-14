@@ -25,15 +25,11 @@ public class RegistrationStoryLiveTest extends JUnitStories {
 
     @Override
     public Configuration configuration() {
-        try {
-            return new MostUsefulConfiguration()
-                    .useStoryLoader(new LoadFromClasspath(this.getClass()))
-                    .useStoryReporterBuilder(new StoryReporterBuilder()
-                            .withCodeLocation(new File("./target/jbehave/registration/foo").toURI().toURL())
-                            .withFormats(TXT, STATS, XML));
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        }
+        return new MostUsefulConfiguration()
+                .useStoryLoader(new LoadFromClasspath(getClass()))
+                .useStoryReporterBuilder(new StoryReporterBuilder()
+                        .withCodeLocation(codeLocationFromClass(getClass()))
+                        .withFormats(CONSOLE));
     }
 
     @Override

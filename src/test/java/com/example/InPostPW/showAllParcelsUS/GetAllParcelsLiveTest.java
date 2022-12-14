@@ -18,17 +18,14 @@ import static org.jbehave.core.reporters.Format.*;
 import static org.jbehave.core.reporters.StoryReporterBuilder.Format.HTML;
 
 public class GetAllParcelsLiveTest extends JUnitStories {
+
     @Override
     public Configuration configuration() {
-        try {
-            return new MostUsefulConfiguration()
-                    .useStoryLoader(new LoadFromClasspath(this.getClass()))
-                    .useStoryReporterBuilder(new StoryReporterBuilder()
-                            .withCodeLocation(new File("./target/jbehave/parcels-all/foo").toURI().toURL())
-                            .withFormats(TXT, STATS, XML));
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        }
+        return new MostUsefulConfiguration()
+                .useStoryLoader(new LoadFromClasspath(this.getClass()))
+                .useStoryReporterBuilder(new StoryReporterBuilder()
+                        .withCodeLocation(codeLocationFromClass(this.getClass()))
+                        .withFormats(CONSOLE));
     }
 
     @Override

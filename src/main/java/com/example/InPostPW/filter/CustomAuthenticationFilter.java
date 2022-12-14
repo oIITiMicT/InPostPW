@@ -19,11 +19,15 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Map;
 import java.util.Optional;
 
 
 @RequiredArgsConstructor
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+
+    private static final String ACCESS_TOKEN = "accessToken";
+    private static final String REFRESH_TOKEN = "refreshToken";
 
     private final AuthenticationManager authenticationManager;
 
@@ -64,9 +68,11 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         UserDetails user = (UserDetails)authResult.getPrincipal();
-        String token = userTokenProvider.provide(user.getUsername());
-        response.setHeader("token", token);
+        Map<String, String> tokens = userTokenProvider.provide(user.getUsername());
+        response.setHeader(ACCESS_TOKEN, tokens.get(ACCESS_TOKEN));
+        response.setHeader(REFRESH_TOKEN, tokens.get(REFRESH_TOKEN));
         response.addHeader("Vary", "Access-Control-Expose-Headers");
-        response.setHeader("Access-Control-Expose-Headers", "token");
+        response.setHeader("Access-Control-Expose-Headers", ACCESS_TOKEN);
+        response.setHeader("Access-Control-Expose-Headers", REFRESH_TOKEN);
     }
 }

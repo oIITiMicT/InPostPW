@@ -21,15 +21,11 @@ public class ExpectedPackagesLiveTest extends JUnitStories {
 
     @Override
     public Configuration configuration() {
-        try {
-            return new MostUsefulConfiguration()
-                    .useStoryLoader(new LoadFromClasspath(this.getClass()))
-                    .useStoryReporterBuilder(new StoryReporterBuilder()
-                            .withCodeLocation(new File("./target/jbehave/parcels-expected/foo").toURI().toURL())
-                            .withFormats(TXT, STATS, XML));
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        }
+        return new MostUsefulConfiguration()
+                .useStoryLoader(new LoadFromClasspath(this.getClass()))
+                .useStoryReporterBuilder(new StoryReporterBuilder()
+                        .withCodeLocation(codeLocationFromClass(this.getClass()))
+                        .withFormats(CONSOLE));
     }
 
     @Override
